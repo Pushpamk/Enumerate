@@ -1,4 +1,4 @@
 #!/bin/bash
 curl -sL https://crt.sh/?q=%25.$1 | grep -oE "<TD>(\w|\.|\*)*<\/TD>" | sed -e "s/<TD>//" -e "s/<\/TD>//" | sort -u > crtsh_domain
-awk -F'.' '{print $(NF-1)"."$NF}' crtsh_domain | sort -u | xargs -I{} curl -sL https://crt.sh/?q=%25.{} | grep -oE "<TD>(\w|\.|\*)*<\/TD>" | sed -e "s/<TD>//" -e "s/<\/TD>//" | tee -a temp \
+awk -F'.' '{print $(NF-2)"."$(NF-1)"."$NF}' crtsh_domain | sort -u | xargs -I{} curl -sL https://crt.sh/?q=%25.{} | grep -oE "<TD>(\w|\.|\*)*<\/TD>" | sed -e "s/<TD>//" -e "s/<\/TD>//" | tee -a temp \
         && sort -u temp > subcrtsh && rm temp
